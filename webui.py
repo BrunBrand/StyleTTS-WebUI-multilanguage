@@ -283,7 +283,8 @@ def update_voice_model(model_path):
         gr.Warning(
             "No model or model configuration loaded, check model config file is present"
         )
-    gr.Info("Models finished loading")
+    else:
+        gr.Info("Models finished loading")
 
 
 def get_models_path(voice, model_name, root="models"):
@@ -313,15 +314,8 @@ def load_settings():
         with open(SETTINGS_FILE_PATH, "r") as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
-        if reference_audio_list:
-            reference_file = reference_audio_list[0]
-        else:
-            reference_file = None
-        if voice_list_with_defaults:
-            voice = voice_list_with_defaults[0]
-        else:
-            voice = None
-
+        reference_file = reference_audio_list[0] if reference_audio_list else None
+        voice = voice_list_with_defaults[0] if voice_list_with_defaults else None
         settings_list = {
             "text": "Inferencing with this sentence, just to make sure things work!",
             "voice": voice,
